@@ -1,8 +1,10 @@
+import java.util.Arrays;
 
 public class pracController {
 	
 	public static void main(String[] args) {
 		
+		//다음에 올 숫자 Lv0
 		class Solution {
 			/*
 			 문제 : 다음에 올 숫자
@@ -38,12 +40,89 @@ public class pracController {
 		    	}
 		    	return result;
 		    }
+		    
 		}
 		
+		/*
+		int[] param = {2, 4, 8};
+
+		Solution sol = new Solution();
+		System.out.println(sol.nextVal(sol.checkArr(param), param));
+		*/
+		
+		
+		/************************************************************************************************
+		 ************************************************************************************************
+		 											다 음 문 제
+		 ************************************************************************************************
+		 *************************************************************************************************/
+		
+		
+		/*
+		다음에 올 숫자 싱행
 		int[] param = {2, 4, 8};
 		
 		Solution sol = new Solution();
 		System.out.println(sol.nextVal(sol.checkArr(param), param));
+		*/
+		
+		//햄버거 만들기 Lv1
+		class Solution1 {
+			
+			/*
+			문제 : 햄버거 만들기 
+			 
+			햄버거 가게에서 일을 하는 상수는 햄버거를 포장하는 일을 합니다. 함께 일을 하는 다른 직원들이 햄버거에 들어갈 재료를 조리해 주면 조리된 순서대로 상수의 앞에 아래서부터 위로 쌓이게 되고, 
+			상수는 순서에 맞게 쌓여서 완성된 햄버거를 따로 옮겨 포장을 하게 됩니다. 
+			상수가 일하는 가게는 정해진 순서(아래서부터, 빵 – 야채 – 고기 - 빵)로 쌓인 햄버거만 포장을 합니다. 상수는 손이 굉장히 빠르기 때문에 상수가 포장하는 동안 속 재료가 추가적으로 들어오는 일은 없으며,
+			재료의 높이는 무시하여 재료가 높이 쌓여서 일이 힘들어지는 경우는 없습니다.
+			예를 들어, 상수의 앞에 쌓이는 재료의 순서가 [야채, 빵, 빵, 야채, 고기, 빵, 야채, 고기, 빵]일 때, 상수는 여섯 번째 재료가 쌓였을 때, 세 번째 재료부터 여섯 번째 재료를 이용하여 햄버거를 포장하고,
+			아홉 번째 재료가 쌓였을 때, 두 번째 재료와 일곱 번째 재료부터 아홉 번째 재료를 이용하여 햄버거를 포장합니다. 즉, 2개의 햄버거를 포장하게 됩니다.
+			상수에게 전해지는 재료의 정보를 나타내는 정수 배열 ingredient가 주어졌을 때, 상수가 포장하는 햄버거의 개수를 return 하도록 solution 함수를 완성하시오.
+			
+			조건
+			1. 1 <= ingredient 길이 <= 1000000
+			2. ingredient의 원소는 1,2,3중 하나의 값이며 순서대로 빵, 야채, 고기를 의미한다.
+			*/
+			
+			/*
+			 처음 생각없는 반복문 사용으로 실행시간 초과. 코드 길이 줄이기만 생각하지 말고 수행시간도 생각하며 코딩
+			 다른 사람의 풀이법을 보다가 Stack 을 사용한 풀이법 발견, 좀 더 좋은 풀이법인듯
+			 */
+			
+			public int makeBurger(int[] ingredient) {
+				int result = 0;
+				StringBuilder sbIngredient = new StringBuilder();
+				
+				for(int i = 0; i < ingredient.length; i++) {
+					sbIngredient.append(ingredient[i]);
+					
+					if(ingredient[i] == 1 && sbIngredient.length() > 3) {
+						if(checkBurger(sbIngredient)) {
+							result++;
+						}
+					}
+				}
+				return result;
+			}
+			
+			public boolean checkBurger(StringBuilder sbIngredient) {
+				if(sbIngredient.length() > 3 && sbIngredient.subSequence(sbIngredient.length() - 4, sbIngredient.length()).equals("1231")) {
+					sbIngredient.delete(sbIngredient.length() - 4, sbIngredient.length());
+					return true;
+				}
+				return false;
+			}
+		}
+		
+		/*
+		int[] arr = {2, 1, 1, 2, 3, 1, 2, 3, 1};
+		
+		Solution1 sol1 = new Solution1();
+		System.out.println("햄버거 갯수 : " + sol1.makeBurger(arr));
+		*/
 	}
+	
+	
 
 }
