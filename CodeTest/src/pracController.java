@@ -1,4 +1,5 @@
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class pracController {
 	
@@ -121,6 +122,42 @@ public class pracController {
 		Solution1 sol1 = new Solution1();
 		System.out.println("햄버거 갯수 : " + sol1.makeBurger(arr));
 		*/
+		
+		
+		/************************************************************************************************
+		 ************************************************************************************************
+		 											다 음 문 제
+		 ************************************************************************************************
+		 *************************************************************************************************/
+		
+		// 성격 유형 검사
+		class Solution2 {
+			
+			public StringBuilder checkCharater(String[] survey, int[] choice) {
+				Map<Character, Integer> result = new HashMap<>();		// 각 유형별 점수
+				
+				for(int i = 0; i < survey.length; i++) {
+					int score = choice[i];								// 각 문항별 선택값
+					
+					if(score > 4) {
+						result.put(survey[i].charAt(1), score - 4);
+					}else{
+						result.put(survey[i].charAt(0), Math.abs(score - 4));
+					}
+				}
+				return new StringBuilder().append(result.getOrDefault('R', 0) >= result.getOrDefault('T', 0) ? 'R' : 'T')
+						.append(result.getOrDefault('C', 0) >= result.getOrDefault('F', 0) ? 'C' : 'F')
+						.append(result.getOrDefault('J', 0) >= result.getOrDefault('M', 0) ? 'J' : 'M')
+						.append(result.getOrDefault('A', 0) >= result.getOrDefault('N', 0) ? 'A' : 'N');
+			}
+		}
+		
+		Solution2 sol2 = new Solution2();
+		String[] q = {"AN", "CF", "MJ", "RT", "NA"};
+		int[] a = {5, 3, 2, 7, 5};
+		
+		System.out.println(sol2.checkCharater(q, a));
+		
 	}
 	
 	
