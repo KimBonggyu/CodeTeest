@@ -1,9 +1,15 @@
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class pracController {
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception{
 		
 		//다음에 올 숫자 Lv0
 		class Solution {
@@ -152,11 +158,74 @@ public class pracController {
 			}
 		}
 		
+		/*
 		Solution2 sol2 = new Solution2();
 		String[] q = {"AN", "CF", "MJ", "RT", "NA"};
 		int[] a = {5, 3, 2, 7, 5};
 		
 		System.out.println(sol2.checkCharater(q, a));
+		*/
+		
+		
+		/************************************************************************************************
+		 ************************************************************************************************
+		 											다 음 문 제
+		 ************************************************************************************************
+		 *************************************************************************************************/
+	
+		/*
+		 1. terms 약관종류 유효기간 형태의 1차원배열, YYYY.MM.DD 형태로 약관종류와 하나의 공백으로 구분
+		 2. privacies 개인정보 수집 일자와 약관 종류의 1차원배열, temrs 의 약관종류만 존재하며 하나의 공백으로 구분
+		 3. YYYY.MM.DD 형태의 오늘날짜 문자변수가 주어졌을때 파기되는 개인정보 번호 출력
+		 
+		 ex) today = 2022.05.19, terms = C 3, privacies = 2022.02.19 C, result = 1 (privacies가 20일이었다면 보존)
+		 */
+		// 개인정보 수집 유효기간
+		class Solution3 {
+			
+			public List<Integer> destroyPrivacy(String today, String[] terms, String[] privacies) throws Exception{
+				
+				List<Integer> result = new ArrayList<Integer>();
+				Calendar cal = Calendar.getInstance();
+				Calendar cal2 = Calendar.getInstance();
+				DateFormat dateformat = new SimpleDateFormat("yyyy.MM.dd");
+				Date todate = null;
+				HashMap<String, Integer> termData = new HashMap<>();
+				
+				//날짜 셋팅
+				todate = dateformat.parse(today);
+				cal.setTime(todate);
+				
+				//약관종류 및 종류별 보관기간 셋팅
+				for(int i = 0; i < terms.length; i++) {
+					termData.put(terms[i].split(" ")[0], Integer.parseInt(terms[i].split(" ")[1]));
+				}
+				
+				//개인정보 파기 구분
+				for(int i = 0; i < privacies.length; i++) {
+					String privacyType = privacies[i].split(" ")[1];
+					
+					todate = dateformat.parse(privacies[i].split(" ")[0]);
+					cal2.setTime(todate);
+					
+					cal2.add(Calendar.MONTH, termData.get(privacyType));
+					cal2.add(Calendar.DATE, -1);
+					
+					if(cal.compareTo(cal2) > 0) {
+						result.add(i+1);
+					}
+				}
+				return result;
+			}
+			
+		}
+		
+		String today = "2022.05.19";
+		String[] terms = {"A 6", "B 12", "C 3"};
+		String[] privacies = {"2021.05.02 A", "2021.07.01 B", "2022.02.19 C", "2022.02.20 C"};
+		
+		Solution3 sol3 = new Solution3();
+		System.out.println(sol3.destroyPrivacy(today, terms, privacies));
 		
 	}
 	
